@@ -44,4 +44,13 @@ class LocalToursSpec extends Specification {
         tours.getTour("tour1")
     }
 
+    def "Require tourBaseDir to be set"() {
+        when:
+        LocalTours localTours = new LocalTours()
+
+        then:
+        !localTours.getTourManifest()
+        !localTours.getTour("tour1")
+    }
+
 }

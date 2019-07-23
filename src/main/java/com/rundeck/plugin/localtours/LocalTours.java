@@ -39,6 +39,10 @@ public class LocalTours implements TourLoaderPlugin {
 
     @Override
     public Map getTourManifest() {
+        if(tourBaseDir == null) {
+            LOG.info("tourBaseDir must be set");
+            return null;
+        }
        File manifest = new File(tourBaseDir,manifestFileName);
        LOG.debug("Loading tour: " + manifest.getAbsolutePath());
        if(!manifest.exists()) {
@@ -55,6 +59,10 @@ public class LocalTours implements TourLoaderPlugin {
 
     @Override
     public Map getTour(final String tourId) {
+        if(tourBaseDir == null) {
+            LOG.info("tourBaseDir must be set");
+            return null;
+        }
         String tourKey = tourId.endsWith(".json") ? tourId : tourId +".json";
         File tourFile = new File(tourBaseDir,toursSubDir+"/"+tourKey);
         LOG.debug("Loading tour: " + tourFile.getAbsolutePath());
