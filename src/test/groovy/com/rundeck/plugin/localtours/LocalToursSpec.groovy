@@ -49,8 +49,8 @@ class LocalToursSpec extends Specification {
         LocalTours localTours = new LocalTours()
 
         then:
-        !localTours.getTourManifest()
-        !localTours.getTour("tour1")
+        localTours.getTourManifest().tours.isEmpty()
+        localTours.getTour("tour1").isEmpty()
     }
 
 }

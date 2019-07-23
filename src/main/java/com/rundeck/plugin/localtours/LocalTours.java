@@ -29,6 +29,10 @@ public class LocalTours implements TourLoaderPlugin {
         mapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
+    private static final HashMap<String,Object> EMPTY_MANIFEST = new HashMap<>();
+    static {
+        EMPTY_MANIFEST.put("tours",new HashMap());
+    }
 
     @PluginProperty(name = "tourBaseDir", title = "Tour Directory", description = "Absolute path to base directory where tour files are located. ")
     String tourBaseDir;
@@ -41,7 +45,7 @@ public class LocalTours implements TourLoaderPlugin {
     public Map getTourManifest() {
         if(tourBaseDir == null) {
             LOG.info("tourBaseDir must be set");
-            return null;
+            return EMPTY_MANIFEST;
         }
        File manifest = new File(tourBaseDir,manifestFileName);
        LOG.debug("Loading tour: " + manifest.getAbsolutePath());
@@ -54,14 +58,14 @@ public class LocalTours implements TourLoaderPlugin {
         } catch (IOException e) {
             LOG.error("Unable to load tour manifest",e);
         }
-        return null;
+        return EMPTY_MANIFEST;
     }
 
     @Override
     public Map getTour(final String tourId) {
         if(tourBaseDir == null) {
             LOG.info("tourBaseDir must be set");
-            return null;
+            return new HashMap();
         }
         String tourKey = tourId.endsWith(".json") ? tourId : tourId +".json";
         File tourFile = new File(tourBaseDir,toursSubDir+"/"+tourKey);
@@ -75,7 +79,7 @@ public class LocalTours implements TourLoaderPlugin {
         } catch (IOException e) {
             LOG.error("Unable to load tour manifest",e);
         }
-        return null;
+        return new HashMap();
     }
 
 }
